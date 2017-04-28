@@ -8,7 +8,10 @@ var ranked = [];
 var timer;
 var numberOfFinishers = 0;
 var speed = [];
-var turningPoint = [];
+var turningPoint1 = [];
+var turningPoint2 = [];
+var turningPoint3 = [];
+var turningPoint4 = [];
 var bettingMoney = 100;
 var betValue;
 var bettingHorse;
@@ -23,7 +26,7 @@ function startClick() {
   betValue = document.getElementById('amount').value;
   laps = document.getElementById('lapCount').value;
   if (laps > 0) {
-    if (bettingMoney > 0 && betValue <= bettingMoneyn && betValue > 0) {
+    if (bettingMoney > 0 && betValue <= bettingMoney && betValue > 0) {
       for (var i = 0; i < 4; i++) {
         direction[i] = 'right';
         lapCount[i] = 0;
@@ -36,11 +39,18 @@ function startClick() {
         horse.style.left = 20 + 'vw';
         var result = 'result' + (i + 1);
         document.getElementById(result).className = '';
+
+        turningPoint1[i] = Math.ceil((window.innerWidth/100)*70) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+        turningPoint2[i] = Math.ceil((window.innerHeight/100)*70) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+        turningPoint3[i] = Math.ceil((window.innerWidth/100)*2.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+        turningPoint4[i] = Math.ceil((window.innerHeight/100)*2.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
       }
       numberOfFinishers = 0;
       timer = setInterval(myInterval, 1);
       document.getElementById('start').disabled = true;
       var dropdown = document.getElementById('bethorse');
+
+
 
       document.getElementById('funds').innerHTML = (bettingMoney - betValue);
       bettingMoney = bettingMoney - betValue;
@@ -149,27 +159,24 @@ function myInterval() {
     var horseTop = horse.offsetTop;
 
     if (direction[i] == 'right') {
-      //console.log(Math.ceil(window.innerWidth / 10));
-      turningPoint[i] = Math.ceil((window.innerWidth/100)*72.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
-      if (horseLeft >= turningPoint[i]) {
+      //console.log(turningPoint1[i]);
+      if (horseLeft >= turningPoint1[i]) {
         console.log('Down ' + horseID + ' ' +horseLeft);
         direction[i] = 'down';
         speed[i] = Math.ceil(Math.random() * 2);
       }
     }
     else if (direction[i] == 'down') {
-      turningPoint[i] = Math.ceil((window.innerHeight/100)*72.5) + ((window.innerHeight/100)*Math.ceil(Math.random() * 10));
-      //console.log(turningPoint[i]);
-      if (horseTop >= turningPoint[i]) {
+      //console.log(turningPoint2[i]);
+      if (horseTop >= turningPoint2[i]) {
         console.log('Left ' + horseID + ' ' +horseTop);
         direction[i] = 'left';
         speed[i] = Math.ceil(Math.random() * 2);
       }
     }
     else if (direction[i] == 'left') {
-      turningPoint[i] = Math.ceil((window.innerWidth/100)*5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 5));
-      //console.log(turningPoint[i]);
-      if (horseLeft <= turningPoint[i]) {
+      //console.log(turningPoint3[i]);
+      if (horseLeft <= turningPoint3[i]) {
         console.log('Up ' + horseID + ' ' +horseLeft);
         direction[i] = 'up';
         speed[i] = Math.ceil(Math.random() * 2);
@@ -178,9 +185,8 @@ function myInterval() {
       }
     }
     else if (direction[i] == 'up') {
-      turningPoint[i] = Math.ceil((window.innerHeight/100)*5) + ((window.innerHeight/100)*Math.ceil(Math.random() * 10));
-      //console.log(turningPoint[i]);
-      if (horseTop <= turningPoint[i]) {
+      //console.log(turningPoint4[i]);
+      if (horseTop <= turningPoint4[i]) {
         console.log('Right ' + horseID + ' ' +horseTop);
         direction[i] = 'right';
         speed[i] = Math.ceil(Math.random() * 2);
