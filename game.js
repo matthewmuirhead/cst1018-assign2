@@ -1,7 +1,7 @@
 var interval = 0;
 var h1PositionLeft = 0;
 var direction = [];
-var stopMoving = [];
+var lapCount = [];
 var finished = [];
 var order = [];
 var ranked = [];
@@ -9,34 +9,90 @@ var timer;
 var numberOfFinishers = 0;
 var speed = [];
 var turningPoint = [];
+var bettingMoney = 100;
+var betValue;
+var bettingHorse;
+var laps;
+var odds = [];
 
 for (var i = 0; i < 4; i++) {
-
+  odds[i] = 2;
 }
 
 function startClick() {
-  for (var i = 0; i < 4; i++) {
-    direction[i] = 'right';
-    stopMoving[i] = 'no';
-    finished[i] = 'no';
-    ranked[i] = false;
-    speed[i] = 1;
-    var horseID = 'horse' + (i+1);
-    var horse = document.getElementById(horseID);
-    horse.style.top = ((i * 4) + 4) + 'vh';
-    horse.style.left = 20 + 'vw';
+  betValue = document.getElementById('amount').value;
+  laps = document.getElementById('lapCount').value;
+  if (laps > 0) {
+    if (bettingMoney > 0 && betValue <= bettingMoneyn && betValue > 0) {
+      for (var i = 0; i < 4; i++) {
+        direction[i] = 'right';
+        lapCount[i] = 0;
+        finished[i] = 'no';
+        ranked[i] = false;
+        speed[i] = 1;
+        var horseID = 'horse' + (i+1);
+        var horse = document.getElementById(horseID);
+        horse.style.top = ((i * 4) + 4) + 'vh';
+        horse.style.left = 20 + 'vw';
+        var result = 'result' + (i + 1);
+        document.getElementById(result).className = '';
+      }
+      numberOfFinishers = 0;
+      timer = setInterval(myInterval, 1);
+      document.getElementById('start').disabled = true;
+      var dropdown = document.getElementById('bethorse');
+
+      document.getElementById('funds').innerHTML = (bettingMoney - betValue);
+      bettingMoney = bettingMoney - betValue;
+      bettingHorse = dropdown.options[dropdown.selectedIndex].value;
+      console.log('Laps: ' + laps);
+      console.log('Horse bet on: ' + bettingHorse);
+      console.log('Amount bet: ' + betValue);
+      console.log('Betting Money left:' + bettingMoney);
+    }
+    else {
+      alert('You do not have enough money for that bet!');
+    }
   }
-  timer = setInterval(myInterval, 1);
-  document.getElementById('start').disabled = true;
+  else {
+    alert('Please enter a valid lap count');
+  }
 }
 
 function resultsScreen() {
+  var winner;
+  var winnerDigit;
   for (var i = 0; i < 4; i++) {
     var horseID = 'horse' + (order[i] + 1);
     var result = 'result' + (i + 1);
-    console.log('Horse ID: ' + horseID);
-    // console.log(result);
+    console.log(result);
+    console.log(order[i]);
     document.getElementById(result).className = horseID;
+    if (i == 0) {
+      winner = horseID;
+
+    }
+  }
+  winnerDigit = order[0];
+  if (winner == bettingHorse) {
+    bettingMoney = bettingMoney + (betValue * odds[winnerDigit]);
+    document.getElementById('funds').innerHTML = bettingMoney;
+  }
+
+  for (var i = 0; i < 4; i++) {
+    if (i == winnerDigit) {
+      odds[i] = odds[i] / 2;
+      var oddsReference = 'odds' + (i + 1)
+      document.getElementById(oddsReference).innerHTML = odds[i];
+    }
+    else {
+      var oddsReference = 'odds' + (i + 1)
+      odds[i] = odds[i] * 2;
+      document.getElementById(oddsReference).innerHTML = odds[i];
+    }
+  }
+  if (bettingMoney == 0) {
+    alert('You are out of money!');
   }
 }
 
@@ -44,23 +100,17 @@ function move() {
   for (var i = 0; i < 4; i++) {
     var horseID = 'horse' + (i+1);
     var horse = document.getElementById(horseID);
-
-    if (stopMoving[i] == 'yes' && horse.offsetLeft > (window.innerWidth/2)) {
+    if (lapCount[i] == laps && horse.offsetLeft > (window.innerWidth/(7/2))) {
       horse.className = 'horse standRight';
       finished[i] = 'yes'
       if (ranked[i] == false) {
         ranked[i] = true;
         //console.log(numberOfFinishers);
         order[numberOfFinishers] = i;
-        console.log('finishing order: ' + order[numberOfFinishers]);
+        //console.log('finishing order: ' + order[numberOfFinishers]);
         numberOfFinishers++;
       }
     }
-
-    if (finished[i] == 'yes') {
-
-    }
-
     else {
       if (direction[i] == 'right') {
         horse.className = 'horse runRight';
@@ -97,41 +147,45 @@ function myInterval() {
     var horse = document.getElementById(horseID);
     var horseLeft = horse.offsetLeft;
     var horseTop = horse.offsetTop;
+
     if (direction[i] == 'right') {
       //console.log(Math.ceil(window.innerWidth / 10));
-      turningPoint[i] = Math.ceil(Math.random() * Math.ceil(window.innerWidth / 5));
-      console.log(turningPoint[i]);
-      if (horseLeft >= Math.ceil(window.innerWidth - (turningPoint[i] + (window.innerWidth/20)))) {
+      turningPoint[i] = Math.ceil((window.innerWidth/100)*72.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+      if (horseLeft >= turningPoint[i]) {
+        console.log('Down ' + horseID + ' ' +horseLeft);
         direction[i] = 'down';
         speed[i] = Math.ceil(Math.random() * 2);
       }
     }
     else if (direction[i] == 'down') {
-      turningPoint[i] = Math.ceil(Math.random() * Math.ceil(window.innerWidth / 10));
-      console.log(turningPoint[i]);
-      if (horseTop >= Math.ceil(window.innerHeight - (turningPoint[i] + (window.innerHeight/100)))) {
+      turningPoint[i] = Math.ceil((window.innerHeight/100)*72.5) + ((window.innerHeight/100)*Math.ceil(Math.random() * 10));
+      //console.log(turningPoint[i]);
+      if (horseTop >= turningPoint[i]) {
+        console.log('Left ' + horseID + ' ' +horseTop);
         direction[i] = 'left';
         speed[i] = Math.ceil(Math.random() * 2);
       }
     }
     else if (direction[i] == 'left') {
-      turningPoint[i] = Math.ceil(Math.random() * Math.ceil(window.innerWidth / 15));
-      console.log(turningPoint[i]);
-      if (horseLeft <= Math.ceil(turningPoint[i] + (window.innerWidth/100))) {
+      turningPoint[i] = Math.ceil((window.innerWidth/100)*5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 5));
+      //console.log(turningPoint[i]);
+      if (horseLeft <= turningPoint[i]) {
+        console.log('Up ' + horseID + ' ' +horseLeft);
         direction[i] = 'up';
         speed[i] = Math.ceil(Math.random() * 2);
-        stopMoving[i] = 'yes';
+        lapCount[i] = lapCount[i] + 1;
+        console.log(lapCount[i]);
       }
     }
     else if (direction[i] == 'up') {
-      turningPoint[i] = Math.ceil(Math.random() * Math.ceil(window.innerWidth / 15));
-      console.log(turningPoint[i]);
-      if (horseTop <= Math.ceil(turningPoint[i] + (window.innerHeight/100))) {
+      turningPoint[i] = Math.ceil((window.innerHeight/100)*5) + ((window.innerHeight/100)*Math.ceil(Math.random() * 10));
+      //console.log(turningPoint[i]);
+      if (horseTop <= turningPoint[i]) {
+        console.log('Right ' + horseID + ' ' +horseTop);
         direction[i] = 'right';
         speed[i] = Math.ceil(Math.random() * 2);
       }
     }
-    turningPoint[i] = 0;
   }
   move();
 }
@@ -139,7 +193,6 @@ function myInterval() {
 function myLoadEvent() {
   var start = document.getElementById('start');
   start.addEventListener('click', startClick);
-
 }
 
 document.addEventListener('DOMContentLoaded', myLoadEvent);
