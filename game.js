@@ -22,6 +22,13 @@ for (var i = 0; i < 4; i++) {
   odds[i] = 2;
 }
 
+function generateTurningPoints(i) {
+  turningPoint1[i] = Math.ceil((window.innerWidth/100)*70) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+  turningPoint2[i] = Math.ceil((window.innerHeight/100)*70) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+  turningPoint3[i] = Math.ceil((window.innerWidth/100)*2.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+  turningPoint4[i] = Math.ceil((window.innerHeight/100)*2.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+}
+
 function startClick() {
   betValue = document.getElementById('amount').value;
   laps = document.getElementById('lapCount').value;
@@ -40,10 +47,7 @@ function startClick() {
         var result = 'result' + (i + 1);
         document.getElementById(result).className = '';
 
-        turningPoint1[i] = Math.ceil((window.innerWidth/100)*70) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
-        turningPoint2[i] = Math.ceil((window.innerHeight/100)*70) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
-        turningPoint3[i] = Math.ceil((window.innerWidth/100)*2.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
-        turningPoint4[i] = Math.ceil((window.innerHeight/100)*2.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+        generateTurningPoints(i);
       }
       numberOfFinishers = 0;
       timer = setInterval(myInterval, 1);
@@ -190,6 +194,7 @@ function myInterval() {
         console.log('Right ' + horseID + ' ' +horseTop);
         direction[i] = 'right';
         speed[i] = Math.ceil(Math.random() * 2);
+        generateTurningPoints(i);
       }
     }
   }
