@@ -23,10 +23,10 @@ for (var i = 0; i < 4; i++) {
 }
 
 function generateTurningPoints(i) {
-  turningPoint1[i] = Math.ceil((window.innerWidth/100)*70) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
-  turningPoint2[i] = Math.ceil((window.innerHeight/100)*70) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
-  turningPoint3[i] = Math.ceil((window.innerWidth/100)*2.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
-  turningPoint4[i] = Math.ceil((window.innerHeight/100)*2.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+  turningPoint1[i] = Math.ceil((window.innerWidth/100)*72.5) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+  turningPoint2[i] = Math.ceil((window.innerHeight/100)*70) + ((window.innerHeight/100)*Math.ceil(Math.random() * 10));
+  turningPoint3[i] = Math.ceil((window.innerWidth/100)*2) + ((window.innerWidth/100)*Math.ceil(Math.random() * 10));
+  turningPoint4[i] = Math.ceil((window.innerHeight/100)*2.5) + ((window.innerHeight/100)*Math.ceil(Math.random() * 10));
 }
 
 function startClick() {
@@ -79,8 +79,7 @@ function resultsScreen() {
   for (var i = 0; i < 4; i++) {
     var horseID = 'horse' + (order[i] + 1);
     var result = 'result' + (i + 1);
-    console.log(result);
-    console.log(order[i]);
+    console.log((i+1) + ': horse' + (order[i] + 1));
     document.getElementById(result).className = horseID;
     if (i == 0) {
       winner = horseID;
@@ -185,7 +184,7 @@ function myInterval() {
         direction[i] = 'up';
         speed[i] = Math.ceil(Math.random() * 2);
         lapCount[i] = lapCount[i] + 1;
-        console.log(lapCount[i]);
+        console.log(horseID + ' lap: ' + lapCount[i]);
       }
     }
     else if (direction[i] == 'up') {

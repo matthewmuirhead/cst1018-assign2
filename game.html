@@ -8,7 +8,6 @@
 	</head>
 
 	<body>
-
 		<div id="horse1" class="horse standRight">
 			<div class="rider">
 				<div class="head">
@@ -18,7 +17,6 @@
 				</div>
 			</div>
 		</div>
-
 
 		<div id="horse2" class="horse standRight">
 			<div class="rider">
@@ -30,7 +28,6 @@
 			</div>
 		</div>
 
-
 		<div id="horse3" class="horse standRight">
 			<div class="rider">
 				<div class="head">
@@ -40,7 +37,6 @@
 				</div>
 			</div>
 		</div>
-
 
 		<div id="horse4" class="horse standRight">
 			<div class="rider">
@@ -52,11 +48,11 @@
 			</div>
 		</div>
 
-
 		<div class="track">
 			<div id="startline">
 
 			</div>
+
 			<div class="inner">
 				<button id="start">
 					Start Race
@@ -80,44 +76,36 @@
 					</select>
 					<label>Lap Count:</label>
 					<input id="lapCount" value="1"/>
-
 				</div>
 
 				<img src="images/tree.png" class="tree" />
 
+				<table id="results">
+					<thead>
+					<tr>
+						<th>Results</th>
+						<th></th>
+					</tr>
+					</thead>
+					<tr>
+						<td>1st</td>
+						<td id="result1" class="horse1"></td>
+					</tr>
+					<tr>
+						<td>2nd</td>
+						<td id="result2" class="horse2"></td>
+					</tr>
+					<tr>
+						<td>3rd</td>
+						<td id="result3" class="horse3"></td>
+					</tr>
+					<tr>
+						<td>4th</td>
+						<td id="result4" class="horse4"></td>
+					</tr>
+				</table>
 
-
-			<table id="results">
-				<thead>
-				<tr>
-					<th>Results</th>
-					<th></th>
-				</tr>
-				</thead>
-				<tr>
-					<td>1st</td>
-					<td id="result1" class="horse1"></td>
-				</tr>
-				<tr>
-					<td>2nd</td>
-					<td id="result2" class="horse2"></td>
-				</tr>
-				<tr>
-					<td>3rd</td>
-					<td id="result3" class="horse3"></td>
-				</tr>
-				<tr>
-					<td>4th</td>
-					<td id="result4" class="horse4"></td>
-				</tr>
-			</table>
-</div>
-
+			</div>
 		</div>
-
-
-
-
-
 	</body>
 </html>
